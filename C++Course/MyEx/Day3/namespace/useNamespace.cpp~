@@ -1,0 +1,11 @@
+#include "namespace.h"
+#include <iostream>
+
+using giraffe::feet, giraffe::neck;
+
+int main(){
+	feet = 4;
+	neck = 1;
+
+	std::cout << feet << std::endl;
+	}

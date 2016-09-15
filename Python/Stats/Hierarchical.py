@@ -1,0 +1,80 @@
+##This implements a simple Hierarchical Bayesian inference system, where for nFeat individual features, each described by a single parameter (Dmu) which is drawn from a Gaussian N(Tmu, Tsig), and with Gaussian noise N(Dmu, Dsig), where Dsig is known, infer Dmu for each feature, and hyperparameters Tmu and Tsig
+
+import numpy as np
+import pylab as pl
+import scipy
+import math
+import scipy.optimize as opt
+import sys
+
+Tmu, Tsig = 10., 1.
+Dsig = 0.05
+nFeat = 5
+nD = 100 #Data per feature
+
+def genData(): 
+    '''
+    Generate the data as nD data points for each feature, defined by a single parameter drawn from a Gaussian defined by Tmu, Tsig, given gaussian noise with width Dsig
+    '''
+    Dmu = scipy.random.normal(Tmu, Tsig, nFeat);
+
+    print "Input was ", Dmu
+    print "with hyperparameters ", Tmu, Tsig
+
+    data = np.array([])
+    for i in range(len(Dmu)):
+        data = np.append(data,scipy.random.normal(Dmu[i], Dsig, nD))
+        
+    return data
+
+def logNormal(x, mu, sigma):
+    if(sigma <= 0): #Hard Prior on sigma (can never be negative or else log will fail)
+        return -1.*sys.float_info.max
+    else:
+        return -1.*(math.log(math.sqrt(2.*math.pi)*sigma)+0.5*(math.pow((x-mu)/sigma,2.)))
+
+
+def getFeatData(data, p):
+    return data[p*nD:(p+1)*nD]
+
+def logHyperPriorMu(x): ##HyperPrior on mu
+    return logNormal(x, Tmu, Tsig*10);
+
+def logHyperPriorSig(x): ##HyperPrior on Sigma
+    if(x < 0): #Hard hyperprior on sigma, can never be negative
+        return -1.*sys.float_info.max
+    return logNormal(x, Tsig, 10.);
+
+def logPosterior(params, nFeat, nHype, data):
+
+    #print "Considering ", params[:nFeat] , " with hyper ", params[-2], params[-1]
+
+    if(nFeat+nHype != len(params)):
+        print "logLikelihood: nParams ne nHype + nFeat"
+        exit(0)
+
+    lProb = 0.
+
+    for p in range(nFeat):
+        fD = getFeatData(data, p)
+        for d in range(len(fD)):
+            lProb += logNormal(fD[d], params[p], Dsig) \
+                     +logNormal(params[p],params[-2], params[-1]) \
+                     + logHyperPriorMu(params[-2]) + logHyperPriorSig(params[-1])
+                     #+ 0. #Likelihood + Prior + HyperPrior
+            
+
+    return -1.*lProb
+
+dVec = genData()
+
+x0 = np.array(nFeat*[9]) #Feature
+x0 = np.append(x0, [9,0.5]) #HyperParameter
+
+print "Initial guess was ", x0
+
+
+maxima = opt.fmin(logPosterior, x0 = x0, args = (nFeat, 2, dVec))
+
+print "Maxima found to be ",maxima[:nFeat]
+print "With hyperparameters ", maxima[-2:]

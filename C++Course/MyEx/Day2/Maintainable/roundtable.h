@@ -1,0 +1,15 @@
+#include "table.h"
+
+#ifndef ROUNDTABLE
+class RoundTable : public Table {
+	public:
+		RoundTable(float, char*);
+		float getClothWeight();
+		float getClothArea();
+		float getCircumference();
+	private:
+		float diameter;
+	};
+#define ROUNDTABLE
+#endif
+

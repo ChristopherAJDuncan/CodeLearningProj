@@ -1,0 +1,9 @@
+#include <string>
+#include <iostream>
+
+int main(){
+  std::string dir = "this";
+  dir += "/";
+  dir += std::to_string(1);
+
+  std::cout << dir << std::endl;

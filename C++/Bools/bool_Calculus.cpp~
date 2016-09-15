@@ -1,0 +1,11 @@
+using namespace std;
+#include<iostream>
+
+
+int main(){
+
+  bool t = true;
+  bool f = false;
+
+  cout << "T+F: " << t+f << endl;
+}

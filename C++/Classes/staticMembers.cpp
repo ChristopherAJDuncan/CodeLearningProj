@@ -1,0 +1,24 @@
+#include <iostream> 
+
+class cls
+{
+public:
+  void func(){static int c = 0; c++; print(c);}
+  void print(int c){ std::cout << "c is " << c << std::endl;}
+};
+
+int main()
+{
+  std::cout << "Class 1 " <<std::endl;
+  cls * clss = new cls();
+  for (int i = 0; i < 10; i++) clss->func();
+
+  delete clss;
+
+  std::cout << "Class 2 " <<std::endl;
+  cls * clss2 = new cls();
+  for (int i = 0; i < 10; i++) clss2->func();
+
+  delete clss2;
+
+}

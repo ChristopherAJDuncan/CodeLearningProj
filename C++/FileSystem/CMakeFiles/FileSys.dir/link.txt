@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/FileSys.dir/path_strip.cpp.o  -o FileSys -rdynamic -lboost_system -lboost_filesystem 

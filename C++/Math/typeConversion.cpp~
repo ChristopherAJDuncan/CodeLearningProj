@@ -1,0 +1,8 @@
+#include <iostream>
+
+int main(){
+  double x[] = {3.4, 3.5, 3.6};
+
+  double * x2[];
+
+}

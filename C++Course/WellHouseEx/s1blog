@@ -1,0 +1,9 @@
+Strings in C are pointers to arrays of characters, null (\0) terminated.  Which means that if you compare them with the == operator, you're going to be comparing addresses, and not whether the strings contain the same text. And even if you put a "*" in front of the variable you're comparing, all you'll do is compare the first character.
+
+Solution is to use standard functions such as strcmp and strcpy - string compare and string copy.   Both of these are regarded as dangerous as they can run off the end of stings that aren't properly null terminated, so you also have strncmp and strncpy which are better regarded, and have an extra parameter which is the maximum number of characters to compare / copy.
+
+Similarly, fgets to read in a string (use stdin for the keyboard) with a maximum length is much safer that gets which can easiiy be overrun by a too-long input! 
+
+Be careful too of strcmp and strncmp - they return 0 if the strings are equal - that's a false value and the opposite of what you would expect ... and they return +1 if the first value is logically (ascibetically) before the second, and -1 if it's after.  Once you realise this is done to help you sort / order strings, it's logical - but it catches newcomers out all the time!
+
+Example <a href=http://www.wellho.net/resources/ex.php?item=c206/s1.c target=xyz>[here]</a> from yesterday's C course - see <a href=http://www.wellho.net/course/c.html>[here]</a>.

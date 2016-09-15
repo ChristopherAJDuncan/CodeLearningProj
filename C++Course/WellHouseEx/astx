@@ -1,0 +1,28 @@
+If you pass a variable into a function in C, you copy the contents into the function so thst any changes made internally in the function are not reflected in the main code copy.  However, if you pass in the address of the variable and work at the same address inside and outside the function, any changes you make to the variable's contents within the function will be reflected in the calling code too.   Example <a href=http://www.wellho.net/resources/ex.php?item=c204/astamp.c target=xyz>[here]</a>.
+
+From that example - defining the function that uses a local copy of the value
+
+<code>&nbsp;&nbsp;void increase(int number) {
+&nbsp;&nbsp;&nbsp;&nbsp;number++;
+&nbsp;&nbsp;&nbsp;&nbsp;printf("Number is %d\n",number);
+&nbsp;&nbsp;}</code>
+
+and calling that:
+
+<code>&nbsp;&nbsp;increase(people);</code>
+
+Alternative - defining the function that copies the address so that the variable is in effect aliased:
+
+<code>&nbsp;&nbsp;void boost(int *number) {
+&nbsp;&nbsp;&nbsp;&nbsp;(*number)++;
+&nbsp;&nbsp;&nbsp;&nbsp;printf("Number is %d\n",*number);
+&nbsp;&nbsp;}</code>
+
+and calling that
+
+<code>&nbsp;&nbsp;boost(&amp;people);</code>
+
+Neither approach is necessarily right - they work in different circumstances. But do note that calling by address is the sensible and effieicent way to pass large data structures (or, rather, references to them) around.
+
+If you want to learn C of C++, we run courses - see <a href=http://www.wellho.net/course/c.html>[here]</a> or get in touch leting us know your background and what you'll be doing with C or C++ so we can best advise.
+

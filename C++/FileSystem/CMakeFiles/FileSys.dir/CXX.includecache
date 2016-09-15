@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hpm61645/LocalCode/TestPrograms/C++/FileSystem/path_strip.cpp
+boost/filesystem.hpp
+-
+boost/filesystem/path.hpp
+-
+iostream
+-
+

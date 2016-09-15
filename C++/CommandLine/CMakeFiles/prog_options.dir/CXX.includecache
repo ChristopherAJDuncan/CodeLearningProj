@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hpm61645/LocalCode/TestPrograms/C++/CommandLine/prog_options.cpp
+boost/program_options.hpp
+-
+iostream
+-
+

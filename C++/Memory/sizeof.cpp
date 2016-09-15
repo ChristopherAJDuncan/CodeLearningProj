@@ -1,0 +1,27 @@
+#include <vector>
+#include <iostream>
+
+class C{
+public:
+  C(){};
+  C(int sz){arr.resize(sz, 0.);}
+
+  std::vector<double> arr;
+};
+
+
+int main(){
+
+  C c1;
+  C c2(1000);
+  std::cout << "Class size " << sizeof(c1) << std::endl;
+  std::cout << "Array class size " << sizeof(c2) << std::endl;
+
+  std::cout << "VArray size " << sizeof(c2.arr) << " . By element " << c2.arr.size()*sizeof((double) 1.0) << std::endl;
+
+  double arrr[c2.arr.size()];
+  for (int i = 0; i < c2.arr.size(); i++) arrr[i] = c2.arr[i];
+  
+  std::cout << "Array size " << sizeof(arrr) << std::endl;
+
+};

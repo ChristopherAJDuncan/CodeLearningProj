@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 2.8)
+
+#set(Boost_NO_BOOST_CMAKE ON)
+
+#Not sure why system and filesystem need to be specified here...
+find_package(Boost COMPONENTS system filesystem prog_options REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
+add_executable(prog_opt prog_options.cpp)
+target_link_libraries(prog_opt
+  ${Boost_LIBRARIES}
+)
+
+install(TARGETS prog_opt
+  RUNTIME DESTINATION /home/hpm61645/LocalCode/TestPrograms/C++/CommandLine
+)

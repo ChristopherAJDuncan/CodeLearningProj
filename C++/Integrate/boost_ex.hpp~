@@ -1,0 +1,118 @@
+//Example taken directly from http://www.boost.org/doc/libs/1_53_0/libs/multiprecision/doc/html/boost_multiprecision/tut/floats/fp_eg/gi.html
+#include<vector>
+#include <iostream>
+#include<numeric>
+
+template<typename value_type, typename function_type>
+inline value_type integral(value_type a,
+                           value_type b,
+                           const value_type tol,
+                           function_type func)
+    {
+    unsigned n = 1U;
+
+    value_type h = (b - a);
+    value_type I = (func(a) + func(b)) * (h / 2);
+
+    bool converged = false;
+
+    //Max number of iterations can be changed here, default was 8
+    for(unsigned k = 0U; k < 6U; k++)
+      {
+	h /= 2;
+
+	value_type sum(0);
+	std::vector<value_type> eval(n, 0.);
+	for(unsigned j = 1U; j <= n; j++)
+	  {
+	    eval[j] = func(a + (value_type((j * 2) - 1) * h));
+	  }
+	sum = std::accumulate(eval.begin(), eval.end(), 0.);
+
+	const value_type I0 = I;
+	I = (I / 2) + (h * sum);
+
+	/*
+	if(I0 == 0. and I != 0.){
+	  //Reduce the range of the support to only the range 
+	  int lo = -1; int hi = -1;
+	  for (int ii = 0; ii < eval.size(); ii++){
+	    if(eval[ii] != 0.){
+	      if(lo < 0) lo = ii;
+	      if(ii>hi) hi = ii;
+	    }
+	  }
+	  a = a+(value_type((lo * 2) - 1) * h); b = a+(value_type((hi * 2) - 1) * h);
+	}
+	else{
+	  n *= 2U;
+	}
+	*/
+	n*=2U;
+
+	const value_type ratio     = I0 / I;
+	const value_type delta     = ratio - 1;
+	const value_type delta_abs = ((delta < 0) ? -delta : delta);
+
+	if((k > 1U) && (delta_abs < tol))
+	  {
+	    converged = true;
+	    break;
+	  }
+      }
+
+    if(!converged) {
+      std::cout << "Integral: " << I << " did not converge!!! "<<std::endl;
+      //throw std::runtime_error("CppNumUtil: integral : integral did not converge!");
+    }
+
+    std::cout << "Integral returned with support " << a << " " << b << std::endl;
+
+    return I;
+  }
+
+
+///NOTE: THERE IS SOME ISSUE HERE WHEN A/= 0, but leaving for now as we can use the above
+template<typename value_type, typename function_type>
+inline value_type integral2(const value_type a,
+                           const value_type b,
+                           const value_type tol,
+                           function_type func)
+{
+  unsigned n = 1U;
+
+  value_type h = (b - a);
+  value_type I = (func(a) + func(b)) * (h / 2);
+
+  for(unsigned k = 0U; k < 80U; k++)
+    {
+
+      h /= 2;
+
+      value_type sum(0);
+      for(unsigned j = 0U; j <= n; j++)
+	{
+	  sum += 0.5*h*(func(a+j*h)+func(a+(j+1)*h));
+	}
+
+      const value_type I0 = I;
+      I = sum;
+
+      std::cout << "For k : " << k << " integral estimated to be " << I << " .. Old is " << I0 << std::endl;
+
+      const value_type ratio     = I0 / I;
+      const value_type delta     = ratio - 1;
+      const value_type delta_abs = ((delta < 0) ? -delta : delta);
+
+      if((I != 0.) && (k > 1U) && (delta_abs < tol))
+	{
+	  std::cout << "Success with k: " << k << " and h " << h << std::endl;
+	  break;
+	}
+
+      n *= 2U;
+
+    }
+
+  return I;
+}

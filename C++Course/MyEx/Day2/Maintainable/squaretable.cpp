@@ -1,0 +1,21 @@
+#include "squaretable.h"
+#include <string.h>
+
+SquareTable::SquareTable(float setlength, float setwidth, char * setstaff){ length = setlength; width = setwidth; strncpy(staff, setstaff, 10);}
+SquareTable::SquareTable(float setlength, char * setstaff){ length = setlength; width = setlength; strncpy(staff, setstaff, 10);}
+float SquareTable::getClothArea(){ 
+	/* Convert to cm */
+	float totalLength = length/10.;
+	float totalWidth = width/10.;
+	
+	totalLength += 2.*CLOTHOVERLAP;
+	totalWidth += 2*CLOTHOVERLAP;
+
+	/* Convert to metres */
+	totalLength /= 100.;
+	totalWidth /= 100.;
+
+	return totalLength*totalWidth;}
+float SquareTable::getCircumference(){
+	return 2.*(length+width);
+	}

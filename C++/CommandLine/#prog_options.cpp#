@@ -1,0 +1,18 @@
+#include <boost/program_options.hpp>
+#include <iostream>
+
+int main(int argc, char *argv[]){
+  namespace po = boost::program_options;
+
+  double xVal;
+
+  po::options_description argsvis("Allowed Options");
+  //argsvis.add_options()
+  //  ("help", "display help message")
+    //("xValue,x", po::value<double>(&xVal)->default_value(0.), "The value of x")
+    ;
+
+  std::cout << "x has value " << xVal << std::endl;
+
+
+}

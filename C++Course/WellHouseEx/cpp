@@ -1,0 +1,22 @@
+The C pre-processor runs on your C and C++ code at compile time prior to the main compile process.  Source lines starting with the # character are processed to roduce a new source code file (internally - you don't normally see this) which is then the input to the compile process "proper".
+
+Preprocessor DIRECTIVES include:
+
+<b><u>#include</u></b>
+To include the contents of another file at this point.  If the other file is embedded in chevrons (&lt; to &gt;), the included file is a standard system one from system libraries, but if it's embedded in double quotes, it's your own include file from your own folder / directory.  Include files often have an extension <b>.h</b> for header, but this doesn't matter to C / C++ - it's just a label
+
+<b><u>#define</u></b>
+Define a variable within the pre-preocessor.   Subseqent refefences to that named variable will be substituted for the value given at compile time, allowing you to fix data at a specific build - such things as array sizes.   It's convention to write preprocessor variable name all in CAPITALS to help the maintenance programmer, but it's not a vital rule.
+
+Preprocessor variables can also be set on the compile time command line; in <b>cc</b> and <b>gcc</b> and <b>g++</b>, that's done with the -D switch.
+
+<b><u>#ifdef</u></b>
+<b><u>#ifndef</u></b>
+Allow you to check whether a variable has been defined - very useful to see ig your file has been brought in by another file at compile time, or is being compiled on its own.  Also useful for conditional code based on compile time selection, and to avoid code being loaded twice where there's a comple #include structure. "ifdef" is "if defined" and "ifndef" is "if NOT defined".
+
+<b><u>#endif</u></b>
+Signifies the end of a block started by "ifdef" or "ifndef".
+
+Note that directives do NOT end with a semicolon character - they are a different language to C and C++, and they end at the end of the line.
+
+Example - <a href=http://www.wellho.net/resources/ex.php?item=c201/cond01.c target=xyz>[here]</a>.

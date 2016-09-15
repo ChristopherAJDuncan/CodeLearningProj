@@ -1,0 +1,37 @@
+using namespace std;
+#include <iostream>
+#include <vector>
+
+/* Lessons learned: defining a const pointer allows the pointer to be edited (e.g. iterated), but not the value the pointer points to */
+
+void func(double * arr){ // if defined as const, array cannot be edited
+  arr[0] *= 2;
+}
+
+void print_Array(const double * arr){
+
+  cout << "Iterated pointer, 0:" << *arr <<endl;
+  arr++;
+  cout << "Iterated pointer, 1:" << *arr <<endl;
+
+
+  /*for (int i = 0; i <2; i++){
+    cout << "Array:" << arr[i]<< endl;
+    }*/
+}
+
+int main(){
+  double arr[2] = {1,2};
+
+  cout << "Original Array:"<< endl;
+  print_Array(arr);
+
+  cout << "Editing Array:" << endl;
+  func(arr);
+
+  cout << "Edited Array:" << endl;
+  print_Array(arr);
+
+
+
+}
